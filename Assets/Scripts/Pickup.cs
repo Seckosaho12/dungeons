@@ -47,7 +47,6 @@ public class Pickup : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log(other);
         if (other.gameObject.GetComponent<PlayerController>()) {
             DetectPickupType();
             Destroy(gameObject);
