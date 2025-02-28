@@ -23,7 +23,7 @@ public class Staff : MonoBehaviour, IWeapon
     }
     public void Attack() {
         myAnimator.SetTrigger(ATTACK_HASH);
-
+        AudioManager.instance.PlayMagicSFX();
     }
 
     public void SpawnStaffProjectileAnimEvent()

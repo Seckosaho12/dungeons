@@ -20,10 +20,13 @@ public class AudioManager : MonoBehaviour
     [Header("Arrow Sound")]
     //public AudioSource ArrowSoundSource;
     public AudioClip ArrowSoundClip;
+    public AudioClipSettings ArrowSettings;
     //Magic Sound
     [Header("Magic Sound")]
     //public AudioSource MagicSoundSource;
     public AudioClip MagicSoundClip;
+    public AudioClipSettings MagicSettings;
+
     //Hurt Sound
     [Header("Hurt Sound")]
     //public AudioSource HurtSoundSource;
@@ -32,12 +35,13 @@ public class AudioManager : MonoBehaviour
     [Header("Dash Sound")]
     //public AudioSource DashSoundSource;
     public AudioClip DashSoundClip;
+    public AudioClipSettings DashSettings;
 
     //Enemy Sounds
     //Slime Attack Sound
-    [Header("Slime Attack Sound")]
+    [Header("Enemy Damage Sound")]
     //public AudioSource SlimeAttackSoundSource;
-    public AudioClip SlimeAttackSoundClip;
+    public AudioClip EnemyDamageSoundClip;
     //Ghost Attack Sound 
     [Header("Ghost Attack Sound ")]
     //public AudioSource GhostAttackSoundSource;
@@ -55,14 +59,30 @@ public class AudioManager : MonoBehaviour
         sfxAudioSource.clip = audioClip;
         sfxAudioSource.volume = settings.volume;
         sfxAudioSource.pitch = UnityEngine.Random.Range(settings.pitchRange.x, settings.pitchRange.y);
-        sfxAudioSource.spatialBlend = settings.is2D ? 1 : 0;
+        sfxAudioSource.spatialBlend = settings.is2D ? 0 : 1;
         sfxAudioSource.Play();
         Destroy(sfx, audioClip.length);
     }
 
-    public void PlayCoinSFX(){
+    public void PlayCoinSFX() {
         PlaySFXOneShot(CoinCollectSoundClip, CoinSettings);
     }
+    public void PlayArrowSFX()
+    {
+        PlaySFXOneShot(ArrowSoundClip, ArrowSettings);
+    }
+    public void PlayDashSFX()
+    {
+        PlaySFXOneShot(DashSoundClip, DashSettings);
+    }
+    public void PlayMagicSFX()
+    {
+        PlaySFXOneShot(MagicSoundClip, MagicSettings);
+    }
+
+
+
+
 
     public void PlaySlash()
     {
