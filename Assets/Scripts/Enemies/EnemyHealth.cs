@@ -41,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
             Instantiate(deathVFXPrefab, transform.position, Quaternion.identity);
             GetComponent<PickupSpawner>().DropItems();
             Destroy(gameObject);
+            AudioManager.instance.PlayEnemyDamageSFX();
         }
     }
 }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CoinPick : Singleton<CoinPick>
 {
-    public CoinCounter cm;
     public void AddOneCoin()
     {
-        cm.coinAmount++;
+        CoinCounter.Instance.coinAmount++;
         AudioManager.instance.PlayCoinSFX();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CoinCounter : MonoBehaviour
+public class CoinCounter : Singleton<CoinCounter>
 {
      public float coinAmount;
     public Text TextOfCoin;

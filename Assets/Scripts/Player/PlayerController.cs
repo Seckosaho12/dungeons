@@ -16,6 +16,8 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Transform weaponCollider;
     [SerializeField] private AudioSource step;
 
+    public PlayerHealth playerHealth;
+
     private PlayerControls playerControls;
     private Vector2 movement;
     private Rigidbody2D rb;
@@ -37,6 +39,7 @@ public class PlayerController : Singleton<PlayerController>
         myAnimator = GetComponent<Animator>();
         mySpriteRender = GetComponent<SpriteRenderer>();
         knockback = GetComponent<Knockback>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Start()
@@ -44,7 +47,11 @@ public class PlayerController : Singleton<PlayerController>
         playerControls.Combat.Dash.performed += _ => Dash();
 
         dashSpeed = moveSpeed;
+
+        ActiveInventory.Instance.EquipStartingWeapon();
     }
+
+    
 
     private void OnEnable()
     {
@@ -102,7 +109,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     private void Move() {
-        if (knockback.GettingKnockedBack) { return; }
+         if (knockback.GettingKnockedBack || PlayerHealth.Instance.isDead) { return; }
 
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
@@ -120,7 +127,6 @@ public class PlayerController : Singleton<PlayerController>
         Vector3 newMousePos = currentFalsePosition;
         if (lastMousePosition == mousePos)
         {
-            Debug.Log("in");
             newMousePos = AdjustTurn(newMousePos);
         }
         else
@@ -149,7 +155,6 @@ public class PlayerController : Singleton<PlayerController>
 
     private Vector3 AdjustTurn(Vector3 newMousePos)
     {
-        Debug.Log(leftFlap);
         if (leftFlap)
         {
             newMousePos.x = -100000;
@@ -160,15 +165,14 @@ public class PlayerController : Singleton<PlayerController>
         }
         return newMousePos;
     }
-    private void Dash()
-    {
-        if (!isDashing)
-        {
+    private void Dash() {
+        if (!isDashing && Stamina.Instance.CurrentStamina > 0) {
+            Stamina.Instance.UseStamina();
             isDashing = true;
             moveSpeed *= dashSpeed;
             myTrailRenderer.emitting = true;
-            AudioManager.instance.PlayDashSFX();
             StartCoroutine(EndDashRoutine());
+            AudioManager.instance.PlayDashSFX();
         }
     }
 

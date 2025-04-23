@@ -184,11 +184,31 @@ MonoBehaviour:
     volume: 1
     pitchRange: {x: 0.8, y: 1.2}
     is2D: 1
-  ArrowSoundClip: {fileID: 0}
-  MagicSoundClip: {fileID: 0}
-  HurtSoundClip: {fileID: 0}
-  DashSoundClip: {fileID: 0}
-  EnemyDamageSoundClip: {fileID: 0}
+  ArrowSoundClip: {fileID: 8300000, guid: 569e3f3f9ffae07418c67bd29f5eb412, type: 3}
+  ArrowSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
+  MagicSoundClip: {fileID: 8300000, guid: 1015f0ab4cc96254f800ca9a59374bc1, type: 3}
+  MagicSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
+  HurtSoundClip: {fileID: 8300000, guid: 74bf587e4ffacd940a8ee49a9172a17d, type: 3}
+  HurtSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
+  DashSoundClip: {fileID: 8300000, guid: 3f8a6b9fd1c82344ca9c48ad7b15aeec, type: 3}
+  DashSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
+  EnemyDamageSoundClip: {fileID: 8300000, guid: 2e4c37afff339c8478fe5b6d28a55e79, type: 3}
+  EnemyDamageSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
   GhostAttackSoundClip: {fileID: 0}
 --- !u!82 &4087925927054542660
 AudioSource:
