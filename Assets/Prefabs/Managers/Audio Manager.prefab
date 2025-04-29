@@ -41,10 +41,10 @@ AudioSource:
   m_GameObject: {fileID: 4230690627568121144}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2273712392011873838, guid: f268e04a5464ba24fbcbf9f93d0dcfcb, type: 2}
   m_audioClip: {fileID: 8300000, guid: 0a673c25aa6f3ef48a61d443c03f7886, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.121
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -174,6 +174,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25b77cc5ffbca44e8c5b7cde5b678f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterMixerGroup: {fileID: 24300002, guid: f268e04a5464ba24fbcbf9f93d0dcfcb, type: 2}
+  sfxMixerGroup: {fileID: -4054803987907751302, guid: f268e04a5464ba24fbcbf9f93d0dcfcb, type: 2}
+  musicMixerGroup: {fileID: 2273712392011873838, guid: f268e04a5464ba24fbcbf9f93d0dcfcb, type: 2}
+  musicSource: {fileID: 6652977425137212799}
+  menuMusicClip: {fileID: 8300000, guid: 85f1f5220cb7c164d9f2a5d3093b59f9, type: 3}
+  menuMusicSettings:
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+    is2D: 1
+  gameMusicClip: {fileID: 8300000, guid: 0a673c25aa6f3ef48a61d443c03f7886, type: 3}
+  gameMusicSettings:
+    volume: 1
+    pitchRange: {x: 1, y: 1}
+    is2D: 1
+  stepSoundClip: {fileID: 8300000, guid: c4501e23a3ff3ee4ab96abeb0f2c5495, type: 3}
+  stepSettings:
+    volume: 1
+    pitchRange: {x: 0.8, y: 1.2}
+    is2D: 1
   slashSoundClip: {fileID: 8300000, guid: ccef495cb24fbc74fb46cdc02f3dda78, type: 3}
   slashSettings:
     volume: 1
@@ -184,9 +203,9 @@ MonoBehaviour:
     volume: 1
     pitchRange: {x: 0.8, y: 1.2}
     is2D: 1
-  ArrowSoundClip: {fileID: 8300000, guid: 569e3f3f9ffae07418c67bd29f5eb412, type: 3}
+  ArrowSoundClip: {fileID: 8300000, guid: dffcd0c83e0018c44b77c5403d171001, type: 3}
   ArrowSettings:
-    volume: 1
+    volume: 0.5
     pitchRange: {x: 0.8, y: 1.2}
     is2D: 1
   MagicSoundClip: {fileID: 8300000, guid: 1015f0ab4cc96254f800ca9a59374bc1, type: 3}
@@ -204,7 +223,7 @@ MonoBehaviour:
     volume: 1
     pitchRange: {x: 0.8, y: 1.2}
     is2D: 1
-  EnemyDamageSoundClip: {fileID: 8300000, guid: 2e4c37afff339c8478fe5b6d28a55e79, type: 3}
+  EnemyDamageSoundClip: {fileID: 8300000, guid: 67eac116451fafd4ea1107d0c517edbf, type: 3}
   EnemyDamageSettings:
     volume: 1
     pitchRange: {x: 0.8, y: 1.2}

@@ -8,29 +8,37 @@ public class ActiveInventory : Singleton<ActiveInventory>
 
     private PlayerControls playerControls;
 
-    protected override void Awake() {
-        base.Awake();
-    
-        playerControls = new PlayerControls();
-    }
-
-    private void Start()
+    protected override void Awake()
     {
-        playerControls.Inventory.Keyboard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
+        base.Awake();
+
+        playerControls = new PlayerControls();
     }
 
     private void OnEnable()
     {
+        playerControls.Inventory.Keyboard.performed += ToggleActiveSlot;
         playerControls.Enable();
     }
 
-        public void EquipStartingWeapon() {
+    // private void OnDisable()
+    // {
+    //     playerControls.Disable();
+    //     playerControls.Combat.Disable();
+    //     playerControls.Turn.Disable();
+    //     playerControls.Inventory.Disable();
+    //     playerControls.Movement.Disable();
+    //     playerControls.Inventory.Keyboard.performed -= ToggleActiveSlot;
+    // }
+
+    public void EquipStartingWeapon()
+    {
         ToggleActiveHighlight(0);
     }
 
-    private void ToggleActiveSlot(int numValue)
+    private void ToggleActiveSlot(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        ToggleActiveHighlight(numValue - 1);
+        ToggleActiveHighlight((int)context.ReadValue<float>() - 1);
     }
 
     private void ToggleActiveHighlight(int indexNum)
@@ -46,9 +54,11 @@ public class ActiveInventory : Singleton<ActiveInventory>
 
         ChangeActiveWeapon();
     }
-    private void ChangeActiveWeapon(){
+    private void ChangeActiveWeapon()
+    {
 
-        if (ActiveWeapon.Instance.CurrentActiveWeapon != null){
+        if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
+        {
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
         }
 
@@ -66,7 +76,7 @@ public class ActiveInventory : Singleton<ActiveInventory>
         GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform);
 
         //ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, 0);
-       // newWeapon.transform.parent = ActiveWeapon.Instance.transform;
+        // newWeapon.transform.parent = ActiveWeapon.Instance.transform;
 
         ActiveWeapon.Instance.NewWeapon(newWeapon.GetComponent<MonoBehaviour>());
 

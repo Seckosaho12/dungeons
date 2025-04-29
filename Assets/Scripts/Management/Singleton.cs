@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
@@ -8,7 +10,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     public static T Instance { get { return instance; } }
     protected virtual void Awake()
     {
-        if (instance != null && this.gameObject != null)
+        if (instance != null)
         {
             Destroy(this.gameObject);
         }
@@ -16,8 +18,20 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         {
             instance = (T)this;
         }
-        if (!gameObject.transform.parent) {
+        if (!gameObject.transform.parent)
+        {
             DontDestroyOnLoad(gameObject);
+        }
+
+        SceneManager.sceneLoaded += DestroyIfMenuSceneLoaded;
+    }
+
+    private void DestroyIfMenuSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        if (arg0.name == "Menu" && instance != null)
+        {
+            Destroy(instance.gameObject);
+            instance = null;
         }
     }
 }

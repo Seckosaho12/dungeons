@@ -8,13 +8,10 @@ using UnityEngine.InputSystem;
 public class PlayerController : Singleton<PlayerController>
 {
     public bool FacingLeft { get { return facingLeft; } set { facingLeft = value; } }
-
-
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
-    [SerializeField] private AudioSource step;
 
     public PlayerHealth playerHealth;
 
@@ -51,8 +48,6 @@ public class PlayerController : Singleton<PlayerController>
         ActiveInventory.Instance.EquipStartingWeapon();
     }
 
-    
-
     private void OnEnable()
     {
         playerControls = new PlayerControls();
@@ -66,6 +61,10 @@ public class PlayerController : Singleton<PlayerController>
     {
         playerControls = new PlayerControls();
         playerControls.Disable();
+        playerControls.Combat.Disable();
+        playerControls.Turn.Disable();
+        playerControls.Inventory.Disable();
+        playerControls.Movement.Disable();
         playerControls.Turn.TurnLeft.performed -= LeftFlapDetect;
         playerControls.Turn.TurnLeft.canceled -= LeftFlapDetect;
         playerControls.Turn.TurnRight.performed -= RightFlapDetect;
@@ -82,8 +81,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         rightFlap = ctx.ReadValueAsButton();
     }
-
-
 
     private void Update()
     {
@@ -108,16 +105,16 @@ public class PlayerController : Singleton<PlayerController>
         myAnimator.SetFloat("moveY", movement.y);
     }
 
-    private void Move() {
-         if (knockback.GettingKnockedBack || PlayerHealth.Instance.isDead) { return; }
+    private void Move()
+    {
+        if (knockback.GettingKnockedBack || PlayerHealth.Instance.isDead) { return; }
 
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
 
     public void PlayStep()
     {
-        step.pitch = Random.Range(0.8f, 1.2f);
-        step.Play();
+        AudioManager.instance.PlayStepSFX();
     }
 
     private void AdjustPlayerFacingDirection()
@@ -165,8 +162,11 @@ public class PlayerController : Singleton<PlayerController>
         }
         return newMousePos;
     }
-    private void Dash() {
-        if (!isDashing && Stamina.Instance.CurrentStamina > 0) {
+    private void Dash()
+    {
+        if (PauseMenuManager.Instance.IsPaused()) return;
+        if (!isDashing && Stamina.Instance.CurrentStamina > 0)
+        {
             Stamina.Instance.UseStamina();
             isDashing = true;
             moveSpeed *= dashSpeed;
@@ -187,4 +187,8 @@ public class PlayerController : Singleton<PlayerController>
         isDashing = false;
     }
 
-   }
+    public PlayerControls GetPlayerControls()
+    {
+        return playerControls;
+    }
+}

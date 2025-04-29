@@ -22,6 +22,15 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
         playerControls.Enable();
     }
 
+    // private void OnDisable()
+    // {
+    //     playerControls.Disable();
+    //     playerControls.Combat.Disable();
+    //     playerControls.Turn.Disable();
+    //     playerControls.Inventory.Disable();
+    //     playerControls.Movement.Disable();
+    // }
+
     private void Start()
     {
         playerControls.Combat.Attack.started += _ => StartAttacking();
@@ -31,17 +40,20 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
     }
     private void Update()
     {
+        if (PauseMenuManager.Instance.IsPaused()) return;
         Attack();
     }
 
-    public void NewWeapon(MonoBehaviour newWeapon) {
+    public void NewWeapon(MonoBehaviour newWeapon)
+    {
         CurrentActiveWeapon = newWeapon;
 
         AttackCooldown();
         timeBetweenAttacks = (CurrentActiveWeapon as IWeapon).GetWeaponInfo().weaponCooldown;
     }
 
-    public void WeaponNull(){
+    public void WeaponNull()
+    {
         CurrentActiveWeapon = null;
     }
 
@@ -52,7 +64,8 @@ public class ActiveWeapon : Singleton<ActiveWeapon>
         StartCoroutine(TimeBetweenAttacksRoutine());
     }
 
-    private IEnumerator TimeBetweenAttacksRoutine(){
+    private IEnumerator TimeBetweenAttacksRoutine()
+    {
         yield return new WaitForSeconds(timeBetweenAttacks);
         isAttacking = false;
     }
