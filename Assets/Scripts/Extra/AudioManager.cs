@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -82,8 +83,9 @@ public class AudioManager : MonoBehaviour
         SceneManager.sceneLoaded += (scene, sceneLoadMode) => PlayRelevantMusic(scene.name);
     }
 
-    private void PlayRelevantMusic(string sceneName)
+    private async void PlayRelevantMusic(string sceneName)
     {
+        Debug.Log($"Scene loaded: {sceneName}");
         if (sceneName.Contains("Menu"))
         {
             PlayMusic(menuMusicClip, menuMusicSettings);
@@ -96,9 +98,10 @@ public class AudioManager : MonoBehaviour
 
     private void PlayMusic(AudioClip clip, AudioClipSettings clipSettings)
     {
+
         if (musicSource.clip == clip && musicSource.isPlaying)
         {
-            return; // Don't play the music again if it's already playing
+            return;
         }
         musicSource.clip = clip;
         musicSource.volume = clipSettings.volume;

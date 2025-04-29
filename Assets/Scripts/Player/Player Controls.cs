@@ -114,7 +114,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""72fc022c-3fbc-493f-8511-45a78dba6ee3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -173,7 +173,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""TurnLeft"",
                     ""type"": ""Button"",
                     ""id"": ""410c1c7b-c09e-4ad8-b5cc-0bbcbbf34bbe"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false

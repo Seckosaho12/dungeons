@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,10 @@ public class EnemyHealth : MonoBehaviour
     private int currentHealth;
     private Knockback knockback;
     private Flash flash;
+    public Action OnEnemyDeath;
 
-    private void Awake(){
+    private void Awake()
+    {
 
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
@@ -37,7 +40,9 @@ public class EnemyHealth : MonoBehaviour
     }
     public void DetectDeath()
     {
-        if (currentHealth <= 0){
+        if (currentHealth <= 0)
+        {
+            OnEnemyDeath?.Invoke();
             Instantiate(deathVFXPrefab, transform.position, Quaternion.identity);
             GetComponent<PickupSpawner>().DropItems();
             Destroy(gameObject);

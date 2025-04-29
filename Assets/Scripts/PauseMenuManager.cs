@@ -9,6 +9,7 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 {
     [SerializeField] private GameObject pauseMenuUI; // Assign the pause menu UI in the Inspector
     private bool isPaused = false;
+    private bool gameEnded = false;
     [SerializeField] private EventSystem eventSystem; // Reference to the EventSystem
 
     void Start()
@@ -42,6 +43,11 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 
     void Update()
     {
+        // Check if the game is ended and prevent any input
+        if (gameEnded)
+        {
+            return; // Exit Update if the game has ended
+        }
         // Toggle pause menu when ESC is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -83,7 +89,7 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     public void QuitToMainMenu()
     {
         Time.timeScale = 1f; // Ensure game time is resumed before switching scenes
-        SceneManager.LoadScene(0); // Replace "MainMenu" with the name of your main menu scene
+        SceneManager.LoadSceneAsync(0, LoadSceneMode.Single); // Replace "MainMenu" with the name of your main menu scene
     }
 
     public void QuitToDesktop()
@@ -97,5 +103,25 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     public bool IsPaused()
     {
         return isPaused; // Return the current pause state
+    }
+
+    public void EndGame()
+    {
+        Time.timeScale = 0f; // Pause game time
+        PlayerController.Instance.enabled = false; // Disable player controls
+        ActiveInventory.Instance.enabled = false; // Disable inventory controls
+        gameEnded = true; // Set game ended state
+        isPaused = true; // Set pause state to true
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f; // Resume game time
+        gameEnded = false; // Reset game ended state
+        isPaused = false; // Reset pause state
+        PlayerPrefs.SetInt("Restarted", 1);
+        PlayerPrefs.Save(); // Save the restart state
+        SceneManager.LoadSceneAsync(0, LoadSceneMode.Single); // Load the main scene (replace "MainScene" with your main scene name)
+
     }
 }
