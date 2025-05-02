@@ -7,11 +7,26 @@ using UnityEngine.EventSystems; // Add this namespace
 
 public class PauseMenuManager : Singleton<PauseMenuManager>
 {
+    private PlayerControls playerControls;
     [SerializeField] private GameObject pauseMenuUI; // Assign the pause menu UI in the Inspector
     private bool isPaused = false;
     private bool gameEnded = false;
     [SerializeField] private EventSystem eventSystem; // Reference to the EventSystem
 
+    private void OnEnable()
+    {
+        playerControls = new PlayerControls();
+        playerControls.Enable();
+    }
+    private void OnDisable()
+    {
+        playerControls = new PlayerControls();
+        playerControls.Disable();
+        playerControls.Combat.Disable();
+        playerControls.Inventory.Disable();
+        playerControls.Movement.Disable();
+
+    }
     void Start()
     {
         // Ensure the pause menu is hidden at the start
@@ -49,7 +64,7 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
             return; // Exit Update if the game has ended
         }
         // Toggle pause menu when ESC is pressed
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (playerControls.UI.PauseMenu.triggered)
         {
             if (isPaused)
             {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ActiveInventory : Singleton<ActiveInventory>
 {
@@ -18,7 +20,27 @@ public class ActiveInventory : Singleton<ActiveInventory>
     private void OnEnable()
     {
         playerControls.Inventory.Keyboard.performed += ToggleActiveSlot;
+        playerControls.Inventory.NextWeapon.performed += ToggleSelectNextWeapon;
+        playerControls.Inventory.PreviousWeapon.performed += ToggleSelectPreviousWeapon;
         playerControls.Enable();
+    }
+
+    private void ToggleSelectPreviousWeapon(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 1)
+        {
+            activeSlotIndexNum = (activeSlotIndexNum - 1 + transform.childCount) % transform.childCount;
+            ToggleActiveHighlight(activeSlotIndexNum);
+        }
+    }
+
+    private void ToggleSelectNextWeapon(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 1)
+        {
+            activeSlotIndexNum = (activeSlotIndexNum + 1) % transform.childCount;
+            ToggleActiveHighlight(activeSlotIndexNum);
+        }
     }
 
     // private void OnDisable()

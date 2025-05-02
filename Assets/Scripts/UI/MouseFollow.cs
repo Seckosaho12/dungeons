@@ -13,12 +13,17 @@ public class MouseFollow : MonoBehaviour
 
     private void FaceMouse()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        if (VirtualCursor.Instance.isUsingController)
+        {
+            transform.right = VirtualCursor.Instance.GetLookVector();
+        }
+        else
+        {
+            Vector3 mousePosition = Input.mousePosition + new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            Vector2 direction = mousePosition.normalized;
 
-        Vector2 direction = transform.position - mousePosition;
-
-        transform.right = -direction;
+            transform.right = -direction;
+        }
     }
 }
 

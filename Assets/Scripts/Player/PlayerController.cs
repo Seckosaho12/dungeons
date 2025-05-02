@@ -15,7 +15,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public PlayerHealth playerHealth;
 
-    private PlayerControls playerControls;
+    public PlayerControls playerControls;
     private Vector2 movement;
     private Rigidbody2D rb;
     private Animator myAnimator;
@@ -52,23 +52,14 @@ public class PlayerController : Singleton<PlayerController>
     {
         playerControls = new PlayerControls();
         playerControls.Enable();
-        playerControls.Turn.TurnLeft.performed += LeftFlapDetect;
-        playerControls.Turn.TurnLeft.canceled += LeftFlapDetect;
-        playerControls.Turn.TurnRight.performed += RightFlapDetect;
-        playerControls.Turn.TurnRight.canceled += RightFlapDetect;
     }
     private void OnDisable()
     {
         playerControls = new PlayerControls();
         playerControls.Disable();
         playerControls.Combat.Disable();
-        playerControls.Turn.Disable();
         playerControls.Inventory.Disable();
         playerControls.Movement.Disable();
-        playerControls.Turn.TurnLeft.performed -= LeftFlapDetect;
-        playerControls.Turn.TurnLeft.canceled -= LeftFlapDetect;
-        playerControls.Turn.TurnRight.performed -= RightFlapDetect;
-        playerControls.Turn.TurnRight.canceled -= RightFlapDetect;
 
     }
 
@@ -119,49 +110,76 @@ public class PlayerController : Singleton<PlayerController>
 
     private void AdjustPlayerFacingDirection()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 newMousePos = currentFalsePosition;
-        if (lastMousePosition == mousePos)
+        if (VirtualCursor.Instance.isUsingController)
         {
-            newMousePos = AdjustTurn(newMousePos);
+            if (VirtualCursor.Instance.GetLookVector().x < 0)
+            {
+                mySpriteRender.flipX = true;
+                facingLeft = true;
+            }
+            else
+            {
+                mySpriteRender.flipX = false;
+                facingLeft = false;
+            }
         }
         else
         {
-            newMousePos = mousePos;
+            Vector3 mousePos = Input.mousePosition;
+            if (mousePos.x < Screen.width / 2)
+            {
+                mySpriteRender.flipX = true;
+                facingLeft = true;
+            }
+            else if (mousePos.x > Screen.width / 2)
+            {
+                mySpriteRender.flipX = false;
+                facingLeft = false;
+            }
         }
-        ApplyDirectionChanges(newMousePos, playerScreenPoint);
-        currentFalsePosition = newMousePos;
-        lastMousePosition = mousePos;
+        // Vector3 mousePos = playerControls.Movement.Look.ReadValue<Vector2>();
+        // Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        //Vector3 newMousePos = currentFalsePosition;
+        // if (lastMousePosition == mousePos)
+        // {
+        //     newMousePos = AdjustTurn(newMousePos);
+        // }
+        // else
+        // {
+        //     newMousePos = mousePos;
+        // }
+        //ApplyDirectionChanges(newMousePos, playerScreenPoint);
+        //currentFalsePosition = newMousePos;
+        //lastMousePosition = mousePos;
     }
 
-    private void ApplyDirectionChanges(Vector3 newMousePos, Vector3 playerScreenPoint)
-    {
-        if (newMousePos.x < playerScreenPoint.x)
-        {
-            mySpriteRender.flipX = true;
-            facingLeft = true;
-        }
-        else
-        {
-            mySpriteRender.flipX = false;
-            facingLeft = false;
-        }
-    }
+    // private void ApplyDirectionChanges(Vector3 newMousePos, Vector3 playerScreenPoint)
+    // {
+    //     if (newMousePos.x < playerScreenPoint.x)
+    //     {
+    //         mySpriteRender.flipX = true;
+    //         facingLeft = true;
+    //     }
+    //     else
+    //     {
+    //         mySpriteRender.flipX = false;
+    //         facingLeft = false;
+    //     }
+    // }
 
 
-    private Vector3 AdjustTurn(Vector3 newMousePos)
-    {
-        if (leftFlap)
-        {
-            newMousePos.x = -100000;
-        }
-        else if (rightFlap)
-        {
-            newMousePos.x = 100000;
-        }
-        return newMousePos;
-    }
+    // private Vector3 AdjustTurn(Vector3 newMousePos)
+    // {
+    //     if (leftFlap)
+    //     {
+    //         newMousePos.x = -100000;
+    //     }
+    //     else if (rightFlap)
+    //     {
+    //         newMousePos.x = 100000;
+    //     }
+    //     return newMousePos;
+    // }
     private void Dash()
     {
         if (PauseMenuManager.Instance.IsPaused()) return;
