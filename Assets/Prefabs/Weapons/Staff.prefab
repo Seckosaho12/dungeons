@@ -82,6 +82,7 @@ MonoBehaviour:
   weaponInfo: {fileID: 11400000, guid: 80e67d8366a812142b19b13d96854adc, type: 2}
   magicLaser: {fileID: 3083022000450673761, guid: 77dd0728d0701b1458174956da653c6f, type: 3}
   magicLaserSpawnPoint: {fileID: 8549170315787863778}
+  attackCooldown: 5
 --- !u!212 &4835577121423848078
 SpriteRenderer:
   m_ObjectHideFlags: 0
